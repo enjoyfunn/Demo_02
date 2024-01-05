@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body,
+        html {
+            margin: 0;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        body {
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        #imgs {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-style: preserve-3d;
+            transform-origin: 0 0 -50vw;
+        }
+
+        #imgs div {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: auto;
+            transform-origin: 50% 50% -50vw;
+            transform: translate3d(-50%, -50%, 0);
+            transform-style: preserve-3d;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+
+        }
+
+        @keyframes rotation {
+            from {
+                transform: rotatey(0);
+            }
+
+            to {
+                transform: rotatey(0.5turn);
+            }
+
+        }
+
+        #imgs div:nth-child(1) {
+            transform: translate3d(-50%, -50%, 0) rotate3d(0, 1, 0, 0deg);
+        }
+
+        #imgs div:nth-child(2) {
+            transform: translate3d(-50%, -50%, 0) rotate3d(0, 1, 0, 36deg);
+        }
+
+        #imgs div:nth-child(3) {
+            transform: translate3d(-50%, -50%, 0) rotate3d(0, 1, 0, 72deg);
+        }
+
+        #imgs div:nth-child(4) {
+            transform: translate3d(-50%, -50%, 0) rotate3d(0, 1, 0, 108deg);
+        }
+
+        #imgs div:nth-child(5) {
+            transform: translate3d(-50%, -50%, 0) rotate3d(0, 1, 0, 144deg);
+        }
+
+        #imgs div:nth-child(6) {
+            transform: translate3d(-50%, -50%, 0) rotate3d(0, 1, 0, 180deg);
+        }
+
+        #imgs div:nth-child(7) {
+            transform: translate3d(-50%, -50%, 0) rotate3d(0, 1, 0, 216deg);
+        }
+
+        #imgs div:nth-child(8) {
+            transform: translate3d(-50%, -50%, 0) rotate3d(0, 1, 0, 252deg);
+        }
+
+        #imgs div:nth-child(9) {
+            transform: translate3d(-50%, -50%, 0) rotate3d(0, 1, 0, 288deg);
+        }
+
+        #imgs div:nth-child(10) {
+            transform: translate3d(-50%, -50%, 0) rotate3d(0, 1, 0, 324deg);
+        }
+
+        #imgs div:nth-child(11) {
+            transform: translate3d(-50%, -50%, 0) rotate3d(0, 1, 0, 360deg);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="imgs"></div>
+    <script src="script.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <div class="container">
+        <div class="header">
+            <h2 align="center">签名展示</h2>
+            <div class="return-sign"><a href="sign.html">返回签名</a></div>
+        </div>
+        <div class="items"></div>
+        <div class="footer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            var docWidth = $("body").width(),
+                imgNb = 10,
+                $images = $("#imgs");
+            $(window).on("resize", function () {
+                docWidth=$("body").width();
+                slidesWidth=$("#imgs").width();
+
+            })
+            $(document).mousemove(function (e) {
+                var mouseX = e.pagex,
+                    rotate = (mouseX * 360) / docWidth;
+
+                $images.css({
+                    "-webkit-transform": "rotate3d(0,1,0" + -rotate + "deg)",
+                    transform: "rorated3d(0,1,0" + -rotate + "deg)",
+                });
+            });
+        });
+
+        $.ajax({
+            url: "http://sign.njpi/api/sign.php",
+            method: "get",
+            data: {
+                action: "query",
+            },
+            success: (res) => {
+                var data = JSON.parse(res).data;
+                // console.log(data);
+                for (item of data) {
+                    var divEl = $("<div>");
+                    var num =
+                        1 + Math.round(Math.random() * 10) > 9
+                            ? 10
+                            : 1 + Math.round(Math.random() * 10);
+
+                    var imgEl = $("<img>");
+                    imgEl.attr("src", `${item.path}`);
+                    imgEl.attr("alt", "no image !");
+                    divEl.css(
+                        "background-image",
+                       // "url('" + "./images/" + num + ".jpg')"
+                       `url('./images/${num}.jpg')`
+
+                    );
+                    divEl.append(imgEl);
+                    $("#imgs").append(divEl);
+                }
+            },
+        });
+
+    </script>
+</body>
+
+</html>

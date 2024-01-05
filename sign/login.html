@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Bootstrap Material Admin</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="robots" content="all, follow" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet" />
+</head>
+
+<body>
+    <div class="page login-page">
+        <div class="container d-flex align-items-center">
+            <div class="form-holder has-shadow">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="info d-flex align-items-center">
+                            <div class="content">
+                                -<div class="logo">
+                                    <h2>欢迎登录</h2>
+                                </div>
+                                <p>签名留言系统</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 bg-white">
+                        <div class="form d-flex align-items-center">
+                            <div class="content">
+                                <div class="form-group">
+                                    <input id="login-username" type="text" name="username" required data-msg="请输入用户名"
+                                        placeholder="用户名" value="admin" class="input-material" />
+                                </div>
+                                <div class="form-group">
+                                    <input id="login-password" type="password" name="password" required data-msg="请输入密码"
+                                        placeholder="密码" class="input-material" />
+                                </div>
+                                <button id="login" class="btn btn-primary">登录</button>
+                                <div style="margin-top: -40px">
+                                    <div class="custom-control custom-checkbox" style="float: right">
+                                        <input type="checkbox" class="custom-control-input" id="check2" />
+                                        <label class="custom-control-label" for="check2">自动登录</label>
+                                    </div>
+                                    <div class="custom-control custom-checkbox" style="float: right">
+                                        <input type="checkbox" class="custom-control-input" id="check1" />
+                                        <label class="custom-control-label" for="check1">记住密码&nbsp;&nbsp; </label>
+                                    </div>
+                                </div>
+                                <br />
+                                <small>没有账号？</small><a href="register.php" class="signup">&nbsp; 注册</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/front.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script>
+        $("#login").click(function () {
+            $.ajax({
+
+                url: "http://sign.njpi/api/user.php",
+                type: "POST",
+                data: {
+                    action: "login",
+                    username: $("#login-username").val(),
+                    password: $("#login-password").val(),
+                },
+                success: function (res) {
+                    let result = JSON.parse(res);
+                    if (result.code == 200) {
+                        alert("用户名密码正确");
+                        location.href = "sign.html";
+                    } else {
+                        alert("用户名或密码错误");
+                        location.href = "login.html";
+                    }
+                },
+            });
+        });
+    </script>
+</body>
+
+</html>
